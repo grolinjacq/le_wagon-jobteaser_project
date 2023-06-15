@@ -1,5 +1,5 @@
 WITH 
-  funnel6_qual_users_only AS(
+  funnel_qual_users_only AS(
     SELECT * 
     FROM `wagon-jobteaser.jt_transformed.funnel`
     WHERE optin_qualified_start IS NOT NULL
@@ -7,7 +7,7 @@ WITH
   avg_optin_timeframe AS(
     SELECT
       AVG(optin_timeframe_days) AS avg_days
-    FROM funnel6_qual_users_only
+    FROM funnel_qual_users_only
     WHERE optin_stop IS NOT NULL
     ),
   replaced_optin_stop AS (
@@ -17,7 +17,7 @@ WITH
       , t.optin_start
       , IFNULL(t.optin_stop, TIMESTAMP_ADD(t.optin_start, INTERVAL CAST(avg.avg_days AS INT64) DAY)) AS optin_stop
       , COALESCE(DATE_DIFF(t.optin_stop, t.optin_start, DAY), avg.avg_days) AS optin_timeframe_days
-    FROM funnel6_qual_users_only t
+    FROM funnel_qual_users_only t
     CROSS JOIN avg_optin_timeframe avg
   ),
   dates AS (

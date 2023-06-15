@@ -1,0 +1,14 @@
+These queries are used to create clean tables where some specific rows where filtered out from the index tables
+
+There are based on multiple assumptions made on the data tables:
+
+- CAND-A1: The same user_id in the same shortlist_id cannot be APPROVED and DECLINED at the same time, more than once.
+    Solution: Keep the last case of approved/declined in the status_update list for the same user in the same shortlist
+- CAND-A2: The same user_id in the same shortlist_id cannot be INTERESTED and NOT_INTERESTED at the same time, more than once
+    Solution: Keep the last case of interested/not_interested in the status_update list for the same user in the same shortlist
+- CAND-A3: The same user_id in the same shortlist_id cannot be APPROVED and DECLINED when INTERESTED is zero 
+    Solution: Delete every rows that are applicable
+- OPTI-A1: The same user cannot have multiple successive OPTIN. 
+    Solution: Delete every following optin instance after the first one (also takes into account if the resume was uploaded, if the event shows a change of resume upload for optin=active, we keep it)(safe measure to maintain that the optin period is as long as possible
+- OPTI-A2: The same user cannot have multiple successive OPTOUT. 
+    Solution: Delete every following optout instance before the last one (safe measure to maintain that the optin period is as long as possible)

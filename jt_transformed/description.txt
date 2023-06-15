@@ -1,0 +1,3 @@
+Transformed tables based on clean data from the clean tables.
+
+funnel: a table representing the funnel of each students "optin sessions" which characterises a period of time between a option and a optout during which a student was looking for a job.

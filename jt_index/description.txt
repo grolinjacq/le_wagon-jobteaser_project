@@ -1,0 +1,1 @@
+These queries are used to create an indexed table (primary key) and filter all duplicate rows from the raw tables
